@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CareConnect Hospital Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        /* ===== LOGIN PAGE ===== */
+#loginPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #0b1f4d, #4a90e2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.login-box {
+    background: white;
+    color: black;
+    padding: 40px;
+    border-radius: 15px;
+    width: 450px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #0b1f4d;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #0b1f4d;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.login-box button:hover {
+    background: #1c4fa1;
+}
+
+.welcome-text {
+     margin-bottom: 80px;
+    margin-top: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+#dashboard {
+    display: none;
+}
+
+
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .header {
+            background: linear-gradient(90deg, #0b2063, #4196e6);
+            color: white;
+            padding: 25px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .main {
+            display: flex;
+            min-height: 650px;
+        }
+
+        .sidebar {
+            width: 35%;
+            background: linear-gradient(#0b2063, #4d9de9);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .sidebar h2 {
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        input {
+            width: 85%;
+            padding: 14px;
+            margin: 12px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            width: 85%;
+            padding: 15px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-blue {
+            background: white;
+            color: #007bbf;
+        }
+
+        .btn-red {
+            background: #ef3340;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .content {
+            width: 65%;
+            background: #eef7f9;
+            padding: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 14px;
+            text-align: center;
+        }
+
+        th {
+            background: #f3f3f3;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #d4edda;
+            color: green;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginPage">
+    <div class="welcome-text">Welcome to CareConnect Hospital Management</div>
+
+    <div class="login-box">
+        <h2>Login</h2>
+        <input type="text" id="user" placeholder="Username">
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
+</div>
+
+<div id="dashboard">
+
+
+<div class="container">
+    <div class="header">CARECONNECT HOSPITAL DASHBOARD </div>
+
+    <div class="main">
+
+        <div class="sidebar">
+            <h2>MENU</h2>
+            
+
+            
+
+            <button class="btn btn-blue" onclick="showForm()">Slot Allocation</button>
+            <button class="btn btn-blue" onclick="showTable()">Display Slots</button>
+            <button class="btn btn-red">Logout</button>
+
+            <div id="message" class="message"></div>
+        </div>
+
+        <div class="content">
+
+    <!-- SLOT FORM -->
+    <div id="formView">
+        <input type="number" id="slotNumber" placeholder="Slot Number">
+        <input type="text" id="roomName" placeholder="Room Type (General/Private)">
+        <input type="text" id="staffName" placeholder="Staff Name">
+
+        <button class="btn btn-blue" onclick="addPatient()">Allocate Slot</button>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- TABLE -->
+    <div id="tableView">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Slot Number</th>
+                    <th>Room Type</th>
+                    <th>Staff Name</th>
+                </tr>
+            </thead>
+            <tbody id="patientTable"></tbody>
+        </table>
+    </div>
+
+    </div>
+    </div>
+</div>
+#tableView {
+    display: none;
+}
+
+<script>
+    function login() {
+        let u = document.getElementById("user").value;
+        let p = document.getElementById("pass").value;
+
+        if (u && p) {
+            document.getElementById("loginPage").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+        } else {
+            alert("Enter username and password");
+        }
+    }
+
+    function logout() {
+        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("loginPage").style.display = "flex";
+    }
+
+    const API_URL = "http://localhost:8080/patients";
+
+    async function loadPatients() {
+        try {
+            const response = await fetch(API_URL);
+            const patients = await response.json();
+
+            const table = document.getElementById("patientTable");
+            table.innerHTML = "";
+
+            patients.forEach(patient => {
+                const row = `
+                    <tr>
+                        <td>${patient.id}</td>
+                        <td>${patient.slotNumber}</td>
+                        <td>${patient.roomName}</td>
+                        <td>${patient.staffName}</td>
+                    </tr>
+                `;
+                table.innerHTML += row;
+            });
+
+        } catch (error) {
+            showMessage("Failed to load slots!", false);
+        }
+    }
+
+    async function addPatient() {
+        const slotNumber = document.getElementById("slotNumber").value;
+        const roomName = document.getElementById("roomName").value;
+        const staffName = document.getElementById("staffName").value;
+
+        if (!slotNumber || !roomName || !staffName) {
+            showMessage("Please fill all fields!", false);
+            return;
+        }
+
+        const patient = {
+            slotNumber: parseInt(slotNumber),
+            roomName: roomName,
+            staffName: staffName
+        };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(patient)
+            });
+
+            if (response.ok) {
+                showMessage("Slot allocated successfully!", true);
+
+                document.getElementById("slotNumber").value = "";
+                document.getElementById("roomName").value = "";
+                document.getElementById("staffName").value = "";
+
+                loadPatients();
+            } else {
+                showMessage("Failed to allocate slot!", false);
+            }
+
+        } catch (error) {
+            showMessage("Backend connection failed!", false);
+        }
+    }
+    
+    function showMessage(msg, success) {
+        const box = document.getElementById("message");
+        box.style.display = "block";
+        box.innerText = msg;
+        box.className = success ? "message success" : "message error";
+
+        setTimeout(() => {
+            box.style.display = "none";
+        }, 3000);
+    }
+    function showForm() {
+    document.getElementById("formView").style.display = "block";
+    document.getElementById("tableView").style.display = "none";
+    }
+
+    function showTable() {
+    document.getElementById("formView").style.display = "none";
+    document.getElementById("tableView").style.display = "block";
+    loadPatients();
+    }
+
+    window.onload = loadPatients;
+</script>
+
+</body>
+</html>
