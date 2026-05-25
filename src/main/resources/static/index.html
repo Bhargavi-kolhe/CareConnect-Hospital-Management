@@ -194,6 +194,9 @@
             background: #f8d7da;
             color: red;
         }
+        #tableView {
+        display: none;
+        }
     </style>
 </head>
 <body>
@@ -224,7 +227,7 @@
 
             <button class="btn btn-blue" onclick="showForm()">Slot Allocation</button>
             <button class="btn btn-blue" onclick="showTable()">Display Slots</button>
-            <button class="btn btn-red">Logout</button>
+            <button class="btn btn-red" onclick="logout()">Logout</button>
 
             <div id="message" class="message"></div>
         </div>
@@ -260,9 +263,7 @@
     </div>
     </div>
 </div>
-#tableView {
-    display: none;
-}
+
 
 <script>
     function login() {
@@ -282,7 +283,7 @@
         document.getElementById("loginPage").style.display = "flex";
     }
 
-    const API_URL = "http://localhost:8080/patients";
+    const API_URL = "https://careconnect-hospital-management.onrender.com/patients";
 
     async function loadPatients() {
         try {
